@@ -35,6 +35,10 @@ app.set('port',(process.env.PORT|| 3000));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'static1')));
 
+app.get('/', function(req,res){
+	res.redirect('/Home');
+})
+
 app.get('/Home', function(req, res) {
 	res.render('Home',{
 	});
