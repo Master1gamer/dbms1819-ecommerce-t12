@@ -35,6 +35,9 @@ app.set('port',(process.env.PORT|| 3000));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'static1')));
 
+app.get('/', function(req,res){
+	res.redirect('/Home');
+})
 
 app.get('/Home', function(req, res) {
 	res.render('Home',{
@@ -74,8 +77,25 @@ app.get('/profile/Dwyane_Cueto',function(req,res) {
 });
 
 app.get('/AppPage/:Game',function(req,res) {
-	res.render('AppPage', {
-		})
+	const Game = req.params.Game;
+	if (Game == "God Eater") {
+		res.send('<h1>Hi,' + Game + '!!</h1>');
+	}
+	if (Game == "Patapon 3") {
+		res.send('<h1>Hi,' + Game + '!!</h1>');
+	}
+	if (Game == "Persona 3") {
+		res.send('<h1>Hi,' + Game + '!!</h1>');
+	}
+	if (Game == "Phantasy Star 2") {
+		res.send('<h1>Hi,' + Game + '!!</h1>');
+	}
+	if (Game == "Radiant Mythology") {
+		res.send('<h1>Hi,' + Game + '!!</h1>');
+	}
+	if (Game == "Radiant Mythology") {
+		res.send('<h1>Hi,' + Game + '!!</h1>');
+	}
 });
 
 //Server
