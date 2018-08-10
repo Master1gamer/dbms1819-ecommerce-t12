@@ -9,10 +9,10 @@ const client = new Client({
 	// host: 'localhost',
 	// port: 5432
 
-	database: 'd92ilh5sfloost',
-	user: 'zfpazzhrpsneym',
-	password:'839bff76e60a06be3c9adbe1833f91285020792d5c7a145129c0388c8ce31ef5',
-	host: 'ec2-50-17-189-165.compute-1.amazonaws.com',
+	database: 'dccrlpvndk3t8i',
+	user: 'yvezuzkosggvle',
+	password:'0924e5cdfa5aa86dc4ea4c579b05650096720c7664890378ef046b7ea6684afe',
+	host: 'ec2-50-17-250-38.compute-1.amazonaws.com',
 	port: 5432,
 	ssl: true
 });
@@ -79,7 +79,15 @@ app.get('/profile/Dwyane_Cueto',function(req,res) {
 app.get('/AppPage/:Game',function(req,res) {
 	const Game = req.params.Game;
 	if (Game == "God Eater") {
-		res.send('<h1>Hi,' + Game + '!!</h1>');
+		client.query('SELECT * FROM game_list')
+		.then((results)=>{
+			console.log('results?', results);
+			res.render('AppPage', results);
+		})
+		.catch((err) => {
+			console.log('error',err);
+			res.send('Error!');
+		})
 	}
 	if (Game == "Patapon 3") {
 		res.send('<h1>Hi,' + Game + '!!</h1>');
