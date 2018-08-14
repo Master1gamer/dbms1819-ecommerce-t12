@@ -15,7 +15,7 @@ const client = new Client({
 	host: 'ec2-50-17-250-38.compute-1.amazonaws.com',
 	port: 5432,
 	ssl: true
-});
+});	
 
 client.connect()
 	.then(function(){
@@ -34,6 +34,8 @@ app.set('view engine','handlebars');
 app.set('port',(process.env.PORT|| 3000));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'static1')));
+
+
 
 app.get('/', function(req,res){
 	res.redirect('/Home');
@@ -79,7 +81,7 @@ app.get('/profile/Dwyane_Cueto',function(req,res) {
 app.get('/AppPage/:Game',(req, res)=>{
 	const Game = req.params.Game;
 	if (Game == "God Eater") {
-		return client.query('SELECT * FROM game_list where id=1;')
+		return client.query("SELECT * FROM game_list where id='#0001';")
 		.then((results)=>{
 			console.log('results?', results);
 			res.render('AppPage', results);
@@ -91,7 +93,7 @@ app.get('/AppPage/:Game',(req, res)=>{
 		});
 	}
 	if (Game == "Patapon 3") {
-		return client.query('SELECT * FROM game_list where id=2;')
+		return client.query("SELECT * FROM game_list where id='#0002';")
 		.then((results)=>{
 			console.log('results?', results);
 			res.render('AppPage', results);
@@ -103,7 +105,7 @@ app.get('/AppPage/:Game',(req, res)=>{
 		});
 	}
 	if (Game == "Persona 3") {
-		return client.query('SELECT * FROM game_list where id=3;')
+		return client.query("SELECT * FROM game_list where id='#0003';")
 		.then((results)=>{
 			console.log('results?', results);
 			res.render('AppPage', results);
@@ -115,7 +117,7 @@ app.get('/AppPage/:Game',(req, res)=>{
 		});
 	}
 	if (Game == "Phantasy Star 2") {
-		return client.query('SELECT * FROM game_list where id=4;')
+		return client.query("SELECT * FROM game_list where id='#0004';")
 		.then((results)=>{
 			console.log('results?', results);
 			res.render('AppPage', results);
@@ -127,7 +129,7 @@ app.get('/AppPage/:Game',(req, res)=>{
 		});
 	}
 	if (Game == "Radiant Mythology") {
-		return client.query('SELECT * FROM game_list where id=5;')
+		return client.query("SELECT * FROM game_list where id='#0005';")
 		.then((results)=>{
 			console.log('results?', results);
 			res.render('AppPage', results);
@@ -139,7 +141,7 @@ app.get('/AppPage/:Game',(req, res)=>{
 		});
 	}
 	if (Game == "Radiant Mythology 2") {
-		return client.query('SELECT * FROM game_list where id=6;')
+		return client.query("SELECT * FROM game_list where id='#0006';")
 		.then((results)=>{
 			console.log('results?', results);
 			res.render('AppPage', results);

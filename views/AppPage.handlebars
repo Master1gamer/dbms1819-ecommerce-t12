@@ -11,14 +11,26 @@
 	<div class="container-fluid" style="margin: 0px; padding: 0px; width: 90%;">
 		<div class="row">
 			{{#rows}}
-    		<div class="col-sm-6" style="text-align: center;">
+    		<div class="col-sm-6">
     			<img src="{{imgurl}}" style="width: 100%; margin-top: 60px; border-radius: 10px; height: 250px">
     			<br>
     			<br>
+    			<div class="col-sm-12">
+					<h4>Product ID: {{id}}</h4>
+				</div>
+    			<div class="col-sm-12">
+					<h4>Publisher: {{publisher}}</h4>
+				</div>
+				<div class="col-sm-12">
+					<h2>Price: &#8369; {{price}}</span></h2>
+				</div>
     		</div>
     		<div class="col-sm-6">
 				<div class="col-sm-12">
 					<h2>{{name}}</h2>
+				</div>
+				<div class="col-sm-12">
+					<h4>Genre: {{genre}}</h4>
 				</div>
 				<div class="col-sm-12">
 					<h4>Rating: {{rating}}<span style="font-size:180%;">&starf;</span></h4>
