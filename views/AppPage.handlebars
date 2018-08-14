@@ -1,22 +1,27 @@
 <style>
+	{{#rows}}
 	body{
-		background-image: url("/God Eater/main.jpeg");
+		background-image: url("{{bgimg}}");
 		background-size: cover;
+		background-repeat: no-repeat;
 	}
+	{{/rows}}
 </style>
-<div class="container" style="background-color: white; width: 75%;">
+<div class="container" style="background-color: #A6A6A6; width: 75%; margin-top: 100px; border-radius: 20px; opacity: 0.95;">
 	<div class="container-fluid" style="margin: 0px; padding: 0px; width: 90%;">
 		<div class="row">
 			{{#rows}}
-    		<div class="col-sm-6">
-    			<img src="{{imgurl}}" style="width: 100%;">
+    		<div class="col-sm-6" style="text-align: center;">
+    			<img src="{{imgurl}}" style="width: 100%; margin-top: 60px; border-radius: 10px; height: 250px">
+    			<br>
+    			<br>
     		</div>
     		<div class="col-sm-6">
 				<div class="col-sm-12">
 					<h2>{{name}}</h2>
 				</div>
 				<div class="col-sm-12">
-					<h4>Rating: {{rating}}<span style="font-size:180%;color:grey;">&starf;</span></h4>
+					<h4>Rating: {{rating}}<span style="font-size:180%;">&starf;</span></h4>
 				</div>
 				<div class="col-sm-12">
 					<h4>Release Date: {{date_release}}</h4>
@@ -24,6 +29,7 @@
 				<div class="col-sm-12">
 					<h4> Description:</h4>
 					<h4 style="text-indent: 50px; text-align: justify;">{{description}}</h4>
+					<br>
 				</div>
 				{{/rows}}
 			</div>

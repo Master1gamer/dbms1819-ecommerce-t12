@@ -90,7 +90,7 @@ app.get('/AppPage/:Game',(req, res)=>{
 			res.send('Error!');
 		});
 	}
-	if (Game == "Persona 3") {
+	if (Game == "Patapon 3") {
 		return client.query('SELECT * FROM game_list where id=2;')
 		.then((results)=>{
 			console.log('results?', results);
@@ -102,7 +102,7 @@ app.get('/AppPage/:Game',(req, res)=>{
 			res.send('Error!');
 		});
 	}
-	if (Game == "Patapon 3") {
+	if (Game == "Persona 3") {
 		return client.query('SELECT * FROM game_list where id=3;')
 		.then((results)=>{
 			console.log('results?', results);
@@ -138,8 +138,8 @@ app.get('/AppPage/:Game',(req, res)=>{
 			res.send('Error!');
 		});
 	}
-	if (Game == "Radiant Mythology") {
-		return client.query('SELECT * FROM game_list where id=5;')
+	if (Game == "Radiant Mythology 2") {
+		return client.query('SELECT * FROM game_list where id=6;')
 		.then((results)=>{
 			console.log('results?', results);
 			res.render('AppPage', results);
