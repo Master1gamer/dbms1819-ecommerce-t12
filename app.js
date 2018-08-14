@@ -76,10 +76,85 @@ app.get('/profile/Dwyane_Cueto',function(req,res) {
 	})
 });
 
-app.get('/AppPage/:Game',function(req,res) {
+app.get('/AppPage/:Game',(req, res)=>{
 	const Game = req.params.Game;
 	if (Game == "God Eater") {
-		client.query('SELECT * FROM game_list')
+		return client.query('SELECT * FROM game_list where id=1;')
+		.then((results)=>{
+			console.log('results?', results);
+			res.render('AppPage', results);
+			
+		})
+		.catch((err) => {
+			console.log('error',err);
+			res.send('Error!');
+		});
+	}
+	if (Game == "Patapon 3") {
+		return client.query('SELECT * FROM game_list where id=2;')
+		.then((results)=>{
+			console.log('results?', results);
+			res.render('AppPage', results);
+			
+		})
+		.catch((err) => {
+			console.log('error',err);
+			res.send('Error!');
+		});
+	}
+	if (Game == "Persona 3") {
+		return client.query('SELECT * FROM game_list where id=3;')
+		.then((results)=>{
+			console.log('results?', results);
+			res.render('AppPage', results);
+			
+		})
+		.catch((err) => {
+			console.log('error',err);
+			res.send('Error!');
+		});
+	}
+	if (Game == "Phantasy Star 2") {
+		return client.query('SELECT * FROM game_list where id=4;')
+		.then((results)=>{
+			console.log('results?', results);
+			res.render('AppPage', results);
+			
+		})
+		.catch((err) => {
+			console.log('error',err);
+			res.send('Error!');
+		});
+	}
+	if (Game == "Radiant Mythology") {
+		return client.query('SELECT * FROM game_list where id=5;')
+		.then((results)=>{
+			console.log('results?', results);
+			res.render('AppPage', results);
+			
+		})
+		.catch((err) => {
+			console.log('error',err);
+			res.send('Error!');
+		});
+	}
+	if (Game == "Radiant Mythology") {
+		return client.query('SELECT * FROM game_list where id=5;')
+		.then((results)=>{
+			console.log('results?', results);
+			res.render('AppPage', results);
+			
+		})
+		.catch((err) => {
+			console.log('error',err);
+			res.send('Error!');
+		});
+	}
+});
+
+/* app.get('/AppPage/:Game',function(req,res) {
+	const Game = req.params.Game;
+	return client.query('SELECT * FROM game_list where id=1')
 		.then((results)=>{
 			console.log('results?', results);
 			res.render('AppPage', results);
@@ -88,23 +163,8 @@ app.get('/AppPage/:Game',function(req,res) {
 			console.log('error',err);
 			res.send('Error!');
 		})
-	}
-	if (Game == "Patapon 3") {
-		res.send('<h1>Hi,' + Game + '!!</h1>');
-	}
-	if (Game == "Persona 3") {
-		res.send('<h1>Hi,' + Game + '!!</h1>');
-	}
-	if (Game == "Phantasy Star 2") {
-		res.send('<h1>Hi,' + Game + '!!</h1>');
-	}
-	if (Game == "Radiant Mythology") {
-		res.send('<h1>Hi,' + Game + '!!</h1>');
-	}
-	if (Game == "Radiant Mythology") {
-		res.send('<h1>Hi,' + Game + '!!</h1>');
-	}
-});
+	
+});*/
 
 //Server
 app.listen(app.get('port'), function() {

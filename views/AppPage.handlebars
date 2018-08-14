@@ -7,22 +7,25 @@
 <div class="container" style="background-color: white; width: 75%;">
 	<div class="container-fluid" style="margin: 0px; padding: 0px; width: 90%;">
 		<div class="row">
+			{{#rows}}
     		<div class="col-sm-6">
-    			<h1>Column 1</h1>
+    			<img src="{{imgurl}}" style="width: 100%;">
     		</div>
     		<div class="col-sm-6">
 				<div class="col-sm-12">
-					<h1> {{name}}</h1>
+					<h2>{{name}}</h2>
 				</div>
 				<div class="col-sm-12">
-					<h1>{{rating}}</h1>
+					<h4>Rating: {{rating}}<span style="font-size:180%;color:grey;">&starf;</span></h4>
 				</div>
 				<div class="col-sm-12">
-					<h1>{{date_release}}</h1>
+					<h4>Release Date: {{date_release}}</h4>
 				</div>
 				<div class="col-sm-12">
-					<h1>{{description}}</h1>
+					<h4> Description:</h4>
+					<h4 style="text-indent: 50px; text-align: justify;">{{description}}</h4>
 				</div>
+				{{/rows}}
 			</div>
 		</div>
 	</div>
