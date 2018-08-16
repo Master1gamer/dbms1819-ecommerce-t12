@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
-const { Client } = require('pg');
+const { Client } = require('pg');	
 const client = new Client({
 	// database: 'MyDatabase',
 	// user: 'postgres',
@@ -35,22 +35,24 @@ app.set('port',(process.env.PORT|| 3000));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'static1')));
 
-
-
+//Redirect to Home Page
 app.get('/', function(req,res){
 	res.redirect('/Home');
 })
 
+//Home Page
 app.get('/Home', function(req, res) {
 	res.render('Home',{
 	});
 });
 
+//Under Maintenance
 app.get('/Unavailable', function(req, res) {
 	res.render('Unavailable',{
 	});
 });
 
+//Profile Page
 app.get('/profile/Mark_Hernandez',function(req,res) {
 	res.render('profile', {
 		name: "Mark Hernandez",
@@ -78,6 +80,7 @@ app.get('/profile/Dwyane_Cueto',function(req,res) {
 	})
 });
 
+//Item Informtion Page
 app.get('/AppPage/:Game',(req, res)=>{
 	const Game = req.params.Game;
 	if (Game == "God Eater") {
@@ -153,20 +156,6 @@ app.get('/AppPage/:Game',(req, res)=>{
 		});
 	}
 });
-
-/* app.get('/AppPage/:Game',function(req,res) {
-	const Game = req.params.Game;
-	return client.query('SELECT * FROM game_list where id=1')
-		.then((results)=>{
-			console.log('results?', results);
-			res.render('AppPage', results);
-		})
-		.catch((err) => {
-			console.log('error',err);
-			res.send('Error!');
-		})
-	
-});*/
 
 //Server
 app.listen(app.get('port'), function() {
