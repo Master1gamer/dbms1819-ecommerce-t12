@@ -4,6 +4,14 @@ const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const { Client } = require('pg');
 const nodemailer = require('nodemailer');
+const Product = require('./models/Product');
+const Brand = require('./models/Publisher');
+const Customer = require('./models/Customer');
+const Order = require('./models/Order');
+const Category = require('./models/Genre');
+
+
+//**********DataBase**********//
 const client = new Client({
 
   database: 'dccrlpvndk3t8i',
@@ -22,6 +30,7 @@ client.connect()
     console.log('Cannot connect to database');
   });
 
+
 const app = express();
 // tell express which folder is a static/public folder
 app.set('views', path.join(__dirname, 'views'));
@@ -31,19 +40,24 @@ app.set('port', (process.env.PORT || 3000));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'static1')));
 
-// Body Parser middleware
+//**********Body Parser middleware**********//
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Redirect to Home Page
 app.get('/', function (req, res) {
-  res.redirect('/home');
+  res.redirect('Customer Pages/Home');
 });
 
+
+//**********Start of Customer Pages**********//
 // Home Page
 app.get('/home', function (req, res) {
-  res.render('Home', {
-  });
+  client.query("SELECT * FROM game_images", (err, res1) => {
+    res.render('Customer Pages/Home', {
+      data: res1.rows
+    });
+  })
 });
 
 // Genre Page
@@ -51,19 +65,8 @@ app.get('/genre', function (req, res) {
   return client.query('SELECT gen_name FROM game_gen Order by gen_name;')
     .then((results) => {
       console.log('results?', results);
-      res.render('genre', results);
+      res.render('CUstomer Pages/genre', results);
     });
-});
-
-// Create Genre Page
-app.get('/genre/create', function (req, res) {
-  res.render('create_genre', {
-  });
-});
-
-app.post('/genre/create', function (req, res) {
-  client.query("INSERT INTO game_gen (gen_name) VALUES ('" + req.body.genre_name + "')");
-  res.redirect('/genre');
 });
 
 // Publisher Page
@@ -71,25 +74,197 @@ app.get('/publisher', function (req, res) {
   return client.query('SELECT pub_name FROM game_pub Order by pub_name;')
     .then((results) => {
       console.log('results?', results);
-      res.render('publisher', results);
+      res.render('Customer Pages/publisher', results);
+    });
+});
+
+// Item Informtion Page
+app.get('/AppPage/:Game', (req, res) => {
+  const Game = req.params.Game;
+  return client.query("SELECT * FROM game_list where game_name='" + Game + "';")
+    .then((results) => {
+      console.log('results?', results);
+      res.render('Customer Pages/AppPage', results);
+    })
+    .catch((err) => {
+      console.log('error', err);
+      res.send('Error!');
+    });
+});
+
+// Customers List Page
+app.get('/customers', (req, res) => {
+  client.query('SELECT * from customer', (err3, datacustomer) => {
+    console.log('results?', datacustomer);
+    res.render('Customer Pages/customer-list', {
+      data: datacustomer.rows
+    });
+  });
+});
+
+// Customers Page
+app.get('/customers/:id', (req, res) => {
+  var id = req.params.id;
+  console.log('ID', id);
+  client.query("SELECT * from customer where gamer_id='" + id + "'", (err5, customerlist) => {
+    console.log('results?', customerlist);
+    client.query("SELECT game_list.game_name, game_list.price, orders.quantity, orders.date_purchase, orders.order_id from game_list INNER JOIN orders ON orders.game_id=game_list.game_id WHERE gamer_id='" + id + "'", (err5, customerdata) => {
+      res.render('Customer Pages/customer-page', {
+        data1: customerlist.rows,
+        data2: customerdata.rows
+      });
+    });
+  });
+});
+
+// Orders Page
+app.get('/Orders', (req, res) => {
+  client.query('SELECT * FROM orders INNER JOIN customer on customer.gamer_id=orders.gamer_id INNER JOIN game_list on orders.game_id=game_list.game_id', (err5, orderlist1) => {
+    console.log('results?', orderlist1);
+    res.render('Customer Pages/orders', orderlist1);
+  });
+});
+
+//**********END of Customer Pages**********//
+
+
+
+//**********Start of Admin Pages**********//
+
+// Admin Page
+app.get('/admin/home', function (req, res) {
+  client.query("SELECT * FROM game_images", (err, res1) => {
+    res.render('Admin Pages/Home', {
+      data: res1.rows
+    });
+  })
+});
+
+// Genre Page
+app.get('/Admin/genre', function (req, res) {
+  return client.query('SELECT gen_name FROM game_gen Order by gen_name;')
+    .then((results) => {
+      console.log('results?', results);
+      res.render('Admin Pages/genre', results);
+    });
+});
+
+// Publisher Page
+app.get('/Admin/publisher', function (req, res) {
+  return client.query('SELECT pub_name FROM game_pub Order by pub_name;')
+    .then((results) => {
+      console.log('results?', results);
+      res.render('Admin Pages/publisher', results);
     });
 });
 
 // Create Publisher Page
-app.get('/publisher/create', function (req, res) {
-  res.render('create_publisher', {
+app.get('/Admin/publisher/create', function (req, res) {
+  res.render('Admin Pages/create_publisher', {
   });
 });
 
-app.post('/publisher/create', function (req, res) {
-  client.query("INSERT INTO game_pub (pub_name) VALUES ('" + req.body.publisher_name + "')");
-  res.redirect('/publisher');
+// Item Informtion Page
+app.get('/Admin/AppPage/:Game', (req, res) => {
+  const Game = req.params.Game;
+  return client.query("SELECT * FROM game_list where game_name='" + Game + "';")
+    .then((results) => {
+      console.log('results?', results);
+      res.render('Admin Pages/AppPage', results);
+    })
+    .catch((err) => {
+      console.log('error', err);
+      res.send('Error!');
+    });
 });
 
-// Under Maintenance
-app.get('/unavailable', function (req, res) {
-  res.render('Unavailable', {
+// Customers List Page
+app.get('/Admin/customers', (req, res) => {
+  client.query('SELECT * from customer', (err3, datacustomer) => {
+    console.log('results?', datacustomer);
+    res.render('Admin Pages/customer-list', {
+      data: datacustomer.rows
+    });
   });
+});
+
+// Customers Page
+app.get('/Admin/customers/:id', (req, res) => {
+  var id = req.params.id;
+  console.log('ID', id);
+  client.query("SELECT * from customer where gamer_id='" + id + "'", (err5, customerlist) => {
+    console.log('results?', customerlist);
+    client.query("SELECT game_list.game_name, game_list.price, orders.quantity, orders.date_purchase, orders.order_id from game_list INNER JOIN orders ON orders.game_id=game_list.game_id WHERE gamer_id='" + id + "'", (err5, customerdata) => {
+      res.render('Admin Pages/customer-page', {
+        data1: customerlist.rows,
+        data2: customerdata.rows
+      });
+    });
+  });
+});
+
+// Orders Page
+app.get('/Admin/Orders', (req, res) => {
+  client.query('SELECT * FROM orders INNER JOIN customer on customer.gamer_id=orders.gamer_id INNER JOIN game_list on orders.game_id=game_list.game_id', (err5, orderlist1) => {
+    console.log('results?', orderlist1);
+    res.render('Admin Pages/orders', orderlist1);
+  });
+});
+
+// Create Genre Page
+app.get('/Admin/genre/create', function (req, res) {
+  res.render('Admin Pages/create_genre', {
+  });
+});
+
+app.post('/Admin/genre/create', function (req, res) {
+  client.query("SELECT * FROM game_gen where gen_name='" + req.body.genre_name + "'", (err, res1) => {
+    if (res1.rowCount >= 1) {
+      res.render('Confirm', {
+        msg: 'The genre is already existing'
+      });
+    } else {
+      client.query("INSERT INTO game_gen (gen_name) VALUES ('" + req.body.genre_name + "')");
+      res.redirect('/Admin/genre');
+    }
+  });
+});
+
+app.post('/Admin/publisher/create', function (req, res) {
+  client.query("SELECT * FROM game_pub where pub_name='" + req.body.publisher_name + "'", (err, res1) => {
+    if (res1.rowCount >= 1) {
+      res.render('Confirm', {
+        msg: 'The publisher is already existing'
+      });
+    } else {
+      client.query("INSERT INTO game_pub (pub_name) VALUES ('" + req.body.publisher_name + "')");
+      res.redirect('/Admin/publisher');
+    }
+  });
+});
+
+// Edit Item Information Page
+app.get('/Admin/Update/:Game', (req, res) => {
+  const Game = req.params.Game;
+  client.query("SELECT * FROM game_list where game_name='" + Game + "'", (err, results) => {
+    console.log('results?', results);
+    client.query('SELECT gen_name, gen_id FROM game_gen', (err2, datagen) => {
+      client.query('SELECT pub_name, pub_id FROM game_pub', (err3, datapub) => {
+        res.render('Admin Pages/update-game', {
+          data: results.rows,
+          gen: datagen.rows,
+          pub: datapub.rows
+        });
+      });
+    });
+  });
+});
+
+// Update Post
+app.post('/Admin/update/:Game/send', function (req, res) {
+  const Game = req.params.Game;
+  client.query("UPDATE game_list SET game_name='" + req.body.game_name + "', game_gen='" + req.body.genre + "', game_pub='" + req.body.publisher + "', price='" + req.body.price + "', description='" + req.body.description + "' WHERE game_name='" + Game + "'");
+  res.redirect('/Admin/home');
 });
 
 // Profile Page
@@ -120,84 +295,18 @@ app.get('/profile/Dwyane_Cueto', function (req, res) {
   });
 });
 
-// Item Informtion Page
-app.get('/AppPage/:Game', (req, res) => {
-  const Game = req.params.Game;
-  return client.query("SELECT * FROM game_list where game_name='" + Game + "';")
-    .then((results) => {
-      console.log('results?', results);
-      res.render('AppPage', results);
-    })
-    .catch((err) => {
-      console.log('error', err);
-      res.send('Error!');
-    });
-});
+//**********End of Admin Pages**********//
 
-// Edit Item Information Page
-app.get('/Update/:Game', (req, res) => {
-  const Game = req.params.Game;
-  client.query("SELECT * FROM game_list where game_name='" + Game + "'", (err, results) => {
-    console.log('results?', results);
-    client.query('SELECT gen_name, gen_id FROM game_gen', (err2, datagen) => {
-      client.query('SELECT pub_name, pub_id FROM game_pub', (err3, datapub) => {
-        res.render('update-game', {
-          data: results.rows,
-          gen: datagen.rows,
-          pub: datapub.rows
-        });
-      });
-    });
-  });
-  /* client.query('SELECT gen_name FROM game_gen', (err, datagen) => {
-    client.query('SELECT pub_name FROM game_pub', (err2, datapub) => {
-      client.query("SELECT * FROM game_list where game_name='"+Game+"'", (err3, results) =>{
-        console.log('results?', results);
-        res.render('update-game', {
-          results,
-          gen: datagen.rows,
-          pub: datapub.rows
-        });
-      })
 
-    })
-  }) */
-});
 
-// Customers List Page
-app.get('/customers', (req, res) => {
-  client.query('SELECT * from customer', (err3, datacustomer) => {
-    console.log('results?', datacustomer);
-    res.render('customer-list', {
-      data: datacustomer.rows
-    });
+// Under Maintenance
+app.get('/unavailable', function (req, res) {
+  res.render('Unavailable', {
   });
 });
 
-// Customers Page
-app.get('/customers/:id', (req, res) => {
-  var id = req.params.id;
-  console.log('ID', id);
-  client.query("SELECT * from customer where gamer_id='" + id + "'", (err5, customerlist) => {
-    console.log('results?', customerlist);
-    client.query("SELECT game_list.game_name, game_list.price, orders.quantity, orders.date_purchase, orders.order_id from game_list INNER JOIN orders ON orders.game_id=game_list.game_id WHERE gamer_id='" + id + "'", (err5, customerdata) => {
-      res.render('customer-page', {
-        data1: customerlist.rows,
-        data2: customerdata.rows
-      });
-    });
-  });
-});
 
-// Orders Page
-app.get('/Orders', (req, res) => {
-  client.query('SELECT * FROM orders INNER JOIN customer on customer.gamer_id=orders.gamer_id INNER JOIN game_list on orders.game_id=game_list.game_id', (err5, orderlist1) => {
-    console.log('results?', orderlist1);
-    res.render('orders', orderlist1);
-  });
-});
-
-// Send Email (Post)
+//**********Send Email (Post)**********//
 app.post('/AppPage/:Game/send', function (req, res) {
   console.log(req.body);
   var id = req.params.Game;
@@ -214,7 +323,7 @@ app.post('/AppPage/:Game/send', function (req, res) {
     </ul>
   `;
   const output2 = `
-    <p>Here's the list of your order</p>
+    <p>Here's the list of details of your order</p>
     <h3>Details</h3>
     <ul>
       <li>Customer Name: ${req.body.Fname} ${req.body.Lname}</li>
@@ -346,16 +455,6 @@ app.post('/AppPage/:Game/send', function (req, res) {
       });
     }
   });
-
-  /* return client.query("SELECT email FROM customer where email="+req.body.email+";")
-    .then((results) => {
-      console.log('results?', results);
-      res.render('AppPage', results);
-    })
-    .catch((err) => {
-      console.log('error!', err);
-      client.query("INSERT INTO customer (gamer_fname, gamer_lname, email, phone) VALUES ("+req.body.Fname+","+req.body.Lname+","+req.body.email+", "+req.body.phone+")");
-    }); */
 });
 
 // Server

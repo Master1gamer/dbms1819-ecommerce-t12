@@ -1,0 +1,186 @@
+<style>
+	{{#rows}}
+	body{
+		background-image: url("{{bgimg}}");
+		background-size: cover;
+		background-repeat: no-repeat;
+	}
+	{{/rows}}
+  .navbar navbar-default{
+      color: #1E2033;
+    }
+    .bottom{
+      position:relative;
+      float:right;
+      bottom:7px;
+      right:9px;
+    }
+	#Details:hover {
+    background-color:  #14143d;
+    transition-duration: 1s;
+    }
+</style>
+<nav class="navbar navbar-default" style="background-color: #1E2033; border-color:#1E2033; margin:0px;">
+  <div class="container-fluid" >
+    <div class="navbar-header" style="width: 6%;">
+      <a class="navbar-brand" href="/Admin/Home"><img src="/navi.jpg" style="width: 40px; position: relative; bottom: 10px;"></a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Home<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="/Admin/Home">Home</a></li>
+          <li><a href="/Admin/create product">Create Product</a></li>
+        </ul>
+      </li>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Genre<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="/Admin/genre">Genre</a></li>
+          <li><a href="/Admin/genre/create">Create Genre</a></li>
+        </ul>
+      </li>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Publisher<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="/Admin/publisher">Publisher</a></li>
+          <li><a href="/publisher/create">Create Publisher</a></li>
+        </ul>
+      </li>
+      <li><a href="/Admin/customers">Customer List</a></li>
+      <li><a href="/Admin/orders">Order List</a></li>
+      <li><a href="/home">Customer</a></li>
+    </ul>
+    <form class="navbar-form navbar-left" action="Post">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search" name="search">
+        <div class="input-group-btn">
+          <button class="btn btn-default" type="submit">
+            <i class="glyphicon glyphicon-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</nav>
+<div>
+{{#rows}}
+  <div class="container" style="background-color: #A6A6A6; width: 75%; margin-top: 30px; border-radius: 20px; opacity: 0.95;">
+	<div class="container-fluid" style="margin: 0px; padding: 0px; width: 100%;">
+		<div class="row">
+		  <div class="col-sm-6">
+    	 <img src="{{imgurl}}" style="width: 100%; margin-top: 60px; border-radius: 10px; height: 250px">
+    		<br>
+    		<br>
+    			<div class="col-sm-12">
+				    <h4>Product ID: {{game_id}}</h4>
+				  </div>
+    			<div class="col-sm-12">
+				    <h4>Publisher: {{game_pub}}</h4>
+				  </div>
+				  <div class="col-sm-12">
+				    <h2>Price: &#8369; {{price}}</span></h2>
+				  </div>
+				  <div class="col-sm-12">
+				    <div style="padding-right: 220px; text-align: center;">
+						  <button id="Details" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#OrderModal" style="background-color: ;color: inherit;" disabled=""><h3>ORDER NOW!!!</h3></button>
+						  <br>
+						  <br>
+				    </div>
+				  </div>				
+    		</div>
+    		<div class="col-sm-6">
+				<div class="col-sm-8">
+					<h2>{{game_name}}</h2>
+				</div>
+        <div class="col-sm-4">
+          <div style="padding-top:10px;">
+            <button id="Details" type="button" class="btn btn-info btn-lg" style="background-color: ;color: inherit; margin-top: 5px;"><a href="/Admin/update/{{game_name}}" style="color: inherit;"><h>Update</h></a></button>
+          </div>
+        </div>
+				<div class="col-sm-12">
+					<h4>Genre: {{game_gen}}</h4>
+				</div>
+				<div class="col-sm-12">
+					<h4>Rating: {{rating}}<span style="font-size:180%;">&starf;</span></h4>
+				</div>
+				<div class="col-sm-12">
+					<h4>Release Date: {{date_release}}</h4>
+				</div>
+				<div class="col-sm-12">
+					<h4> Description:</h4>
+					<h4 style="text-indent: 50px; text-align: justify;">{{description}}</h4>
+					<br>
+				</div>
+			</div>
+		</div>
+	</div>
+  </div>
+
+  <!--Order Modal-->
+  <div class="modal fade" id="OrderModal" role="dialog">
+    <div class="modal-dialog">
+    	<!-- Modal content-->
+    	<div class="modal-content">
+    		<div class="modal-header">
+        		<button type="button" class="close" data-dismiss="modal">&times;</button>
+        		<h4 class="modal-title">Send Us Your Order</h4>
+        	</div>
+        <form method="POST" action=":Game/send">
+	        <div class="modal-body">
+	        	<div class="form-group">
+			    	<div class="col-sm-6">
+			    		<label class="control-label lbl-text" for="Fname">First Name:</label>
+			    		<input id="fname" name="Fname" type="text" placeholder="e.g. Juan" class="form-control" required="" autofocus>
+			    	</div>
+			    	<div class="col-sm-6">
+			    		<label for="phone">Phone:</label>
+			    		<input type="text" class="form-control" id="phone" placeholder="e.g. 09123456789" name="phone" required="">
+			    	</div>
+			    </div>
+			    <br>
+			    <br>
+			    <br>
+			    <div class="form-group">
+            <div class="col-sm-6">
+              <label class="control-label lbl-text" for="Lname">Last Name:</label>
+              <input id="Lname" name="Lname" type="text" placeholder="e.g. Dela Cruz" class="form-control" required="" autofocus>
+            </div>
+			    	<div class="col-sm-6">
+			    		<label for="quantity">Quantity:</label>
+			    		<input type="number" class="form-control" id="quantity" min="1" max="5" value="1" name="quantity" required="">
+			    	</div>
+			    </div>
+          <br>
+          <br>
+          <br>
+          <div class="form-group">
+            <div class="col-sm-6">
+              <label for="email">Email:</label>
+              <input type="email" class="form-control" id="email" placeholder="e.g. email@example.com" name="email" required="">
+            </div>
+            <br>
+            <div class="col-sm-6">
+              <label for="productid">Product ID:</label>
+              <input type="productid" class="form-control" id="productid" value="{{game_id}}" name="productid" required="" readonly="">
+            </div>
+            <div class="col-sm-6">
+              <label for="price">Price:</label>
+              <input type="text" class="form-control" id="price" value="&#8369; {{price}}/each" name="price" required="" readonly="">
+            </div>
+          </div>
+			    <br>
+			    <br>
+			    <br>
+			    <div class="checkbox">
+			    	<label><input type="checkbox" name="remember"> Remember me</label>
+			    </div>
+	        </div>
+	        <div class="modal-footer">
+	        	<button type="submit" class="btn btn-default"	style="float: left;" value="submit">Order</button>
+	         	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        </div>
+	    </form>
+      </div>
+    </div>
+  </div>
+
+{{/rows}}
+</div>

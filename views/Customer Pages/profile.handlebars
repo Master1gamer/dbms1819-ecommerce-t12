@@ -1,0 +1,130 @@
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<style>
+body {
+	background-color: #001224;
+	height: 130px;
+}
+.front {
+	background-color: #000a14;
+	position: relative;
+	height: 350px;
+	border: 5px outset #001a33;
+	border-bottom-color: #003061;
+	border-right-color: #003061;
+	color: #b2c2d1;
+	font-family: monospace;
+}
+#space{
+	position: relative;
+	left:20px;
+}
+.Description {
+	background-color: #000a14;
+	position: relative;
+	top: 10px;
+	border: 5px outset #001a33;
+	border-bottom-color: #003061;
+	border-right-color: #003061;
+	color: #b2c2d1;
+	font-family: monospace;
+}
+h1{
+	padding-top: 10px;
+	padding-left: 30px;
+	line-height: 0;
+}
+p{
+	padding-left: 30px;
+}
+.button {
+    background-color: #b2c2d1;
+    border: none;
+    color: white;
+    padding: 11px 27px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+.button2:hover {
+    background-color: #008CBA;
+    color: white;
+}
+
+.button2 {
+    background-color: #000a14; 
+    color: #b2c2d1; 
+    border: 5px solid #001a33;
+}
+</style>
+<body>
+	<img src="/background2.jpg" style="height:100%;width: 100%;">
+	<div class="container" style="padding-left: 130px; bottom: 60px;padding-right: 140px;position: relative;">
+		<div class="front" >
+			<h1>{{name}}</h1>
+			<p>{{status}}</p>
+			<br>
+			<img src="/mail.png" style="width: 40px; height: 30px; border-radius: 90px;position: relative;left:10px;"><h id="space">{{email}}</h></img>
+			<br>
+			<br>
+			<img src="/Phone.png" style="width: 37px; height: 37px; border-radius: 90px; position: relative; left: 10px;"><h id="space">{{phone}}</h></img>
+			<br>
+			<br>
+			<img src="/Location.jpg" style="width: 37px; height: 37px; border-radius: 90px; position: relative; left:10px;"><h id="space">2123 Anonas Street Sta. Mesa, Manila</h></img>
+			<br>
+			<br>			
+			<div class="container" style="width:300px; height: 300px; position: relative; bottom: 230px; right: 50px; padding:0px; margin-right: 0px;"> 
+	  			<div id="myCarousel" class="carousel slide" data-ride="carousel">
+	    			<!-- Indicators -->
+	    			<ol class="carousel-indicators">
+	      				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+	      				<li data-target="#myCarousel" data-slide-to="1"></li>
+	      				<li data-target="#myCarousel" data-slide-to="2"></li>
+	      				<li data-target="#myCarousel" data-slide-to="3"></li>
+	    			</ol>
+
+	    			<!-- Wrapper for slides -->
+	    			<div class="container"  style="height: 100%; width: 100%; padding: 0px;">
+		    			<div class="carousel-inner" style="height: 100%; width: 100%;">
+		      				<div class="item active">
+		        				<img src="{{imgUrl1}}" style="height: 300px; width: 400px;border-radius: 10px;">
+		      				</div>
+		    				<div class="item">
+		        				<img src="{{imgUrl2}}" style="height: 300px; width: 400px;border-radius: 10px;">
+		      				</div>
+		    				<div class="item">
+		        				<img src="{{imgUrl3}}" style="height: 300px; width: 400px;border-radius: 10px;">
+		    				</div>
+		    				<div class="item">
+		        				<img src="{{imgUrl4}}" style="height: 300px; width: 400px;border-radius: 10px;">
+		    				</div>
+		    			</div>
+		    		</div>	
+	    			<!-- Left and right controls -->
+	    			<a class="left carousel-control" href="#myCarousel" data-slide="prev">
+	    				<span class="glyphicon glyphicon-chevron-left"></span>
+	    				<span class="sr-only">Previous</span>
+	    			</a>
+	    			<a class="right carousel-control" href="#myCarousel" data-slide="next">
+	    				<span class="glyphicon glyphicon-chevron-right"></span>
+	    				<span class="sr-only">Next</span>
+	    			</a>
+	  			</div>
+			</div>
+		</div>
+		<div class="Description">
+				<h4 style="padding-left: 10px;">{{description}}
+				</h4>
+		</div>
+		<div class="container" align="center" style="width: 100px; padding: 0px; position: relative; top: 20px;">
+			<a href="/Home"><button class="button button2">Return</button></a>
+		</div>
+	</div>
+</body>
